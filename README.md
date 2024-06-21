@@ -1,5 +1,5 @@
-# act-test
-
+# gha-sand-box
+GitHub Actionsを試すためのレポジトリ
 
 ## プロジェクトの初期化
 npm init
