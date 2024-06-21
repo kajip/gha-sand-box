@@ -1,13 +1,24 @@
 name: Node Test
 on:
+  workflow_dispatch:
   pull_request:
     paths:
+      - "*.js"
+      - "**/*.js"
+      - "*.mjs"
+      - "**/*.mjs"
       - "*.ts"
       - "**/*.ts"
-
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  test:
+  nodejs-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: checkout source
         uses: actions/checkout@v4
@@ -16,9 +27,9 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: install packages
+      - name: install npm packages
         run: npm install
-      - name: run Linter
+      - name: run eslint
         run: npm run lint
-      - name: run Test
+      - name: run jest
         run: npm test
